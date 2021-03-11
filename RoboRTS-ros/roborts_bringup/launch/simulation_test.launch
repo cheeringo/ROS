@@ -1,0 +1,12 @@
+<launch>
+  <arg name="map" value="icra2019"/>
+  <!-- Run the stage simulator -->
+  <node pkg="stage_ros" type="stageros" name="stageros" args="$(find roborts_bringup)/worlds/$(arg map).world" respawn="false" >
+    <remap from="base_scan" to="scan" />
+    <param name="base_watchdog_timeout" value="0.01" />
+  </node>
+  
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find roborts_bringup)/maps/$(arg map).yaml" respawn="false" />
+  
+  <include file="$(find roborts_bringup)/launch/amcl.launch"/>
+</launch>
